@@ -1,0 +1,135 @@
+<%- include (partial) %>
+
+<!-- Main layout -->
+<main style="margin-top: 100px">
+  <div class="container-fluid card pt-4" style="margin-right: 150px;">
+    <form class="d-flex" role="search">
+      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="searchInput">
+      <button class="btn btn-outline-success" type="">Search</button>
+    </form>
+    <div class="table-container">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Booking Date</th>
+            <th scope="col">Staff Name</th>
+             <th scope="col">Department</th>
+            <th scope="col">Time In</th>
+            <th scope="col">Sign Out</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% bookings.forEach((appointment, index) => { %>
+            <tr id="bookingRow<%= index %>">
+              <th scope="row"><%= appointment.bookingDate %></th>
+              <td><%= appointment.staffname %></td>
+              <td><%= appointment.department %></td>
+              <td><%= appointment.timeIn %></td>
+              <td>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#appointmentDetailsModal<%= index %>">
+                  View Details
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="appointmentDetailsModal<%= index %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Booking Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <!-- Display all details here -->
+                        <p><strong>Staff : </strong> <%= appointment.staffname %></p>
+                        <p><strong>Department: </strong><%= appointment.department %></p>
+                        <p><strong>Detail: </strong><%= appointment.detail %></p>
+                        <p><strong>Location: </strong><%= appointment.location %></p>
+                        <p><strong>Problem: </strong><%= appointment.problem %></p>
+                        <p><strong>Booked Date: </strong><%= appointment.bookingDate %></p>
+                        <p><strong>Time In: </strong><%= appointment.timeIn %></p>
+                        <p><strong>Status: </strong> <%= appointment.status %></p>
+                        <p><strong>Assigned To </strong> <%= appointment.assignedTo %></p>
+                        <p><strong>Time Out: </strong> <%= appointment.timeOut %></p>
+                        <!-- Add other details as needed -->
+                      </div>
+                      <hr>
+                      <form action="/updateAppointment" method="post">
+                        
+              <div class="form ms-3 me-3 mb-4">
+                <label class="form-label" for="form6Example7"> Solution and recommendation</label>
+                <input type="hidden" name="bookingId" value="<%= appointment._id %>">
+                  <input type="hidden" name="bookingIndex" value="<%= index %>">
+                  <input type="hidden" name="appointmentIndex" value="<%= index %>">
+                <textarea class="form-control" id="form6Example7" rows="4" name="solution" required></textarea>
+            </div>
+            
+                      
+                      <div class="modal-footer">
+                        <button type="submit" id="resolved" class="btn btn-primary">Resolved</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        
+                      </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                
+              </td>
+            </tr>
+
+          <% }) %>
+        </tbody>
+      </table>
+   <script>
+  $(document).ready(function () {
+    $('#searchInput').on('input', function () {
+      var searchTerm = $(this).val().toLowerCase();
+
+      // Loop through each booking row and hide/show based on the search term
+      <% bookings.forEach((appointment, index) => { %>
+        var bookingRow = $('#bookingRow<%= index %>');
+        var appointmentDate = '<%= appointment.bookingDate %>'.toLowerCase();
+        var name = '<%= appointment.staffname %>'.toLowerCase();
+        var timeIn = '<%= appointment.timeIn %>'.toLowerCase();
+
+        if (appointmentDate.includes(searchTerm) || name.includes(searchTerm) || timeIn.includes(searchTerm)) {
+          bookingRow.show();
+        } else {
+          bookingRow.hide();
+        }
+      <% }) %>
+    });
+
+    $('form').submit(function (event) {
+      // Prevent the default form submission
+      event.preventDefault();
+
+      // Assuming the form submission is successful
+      // You can add additional logic to check the success condition if needed
+      $.ajax({
+        type: $(this).attr('method'),
+        url: $(this).attr('action'),
+        data: $(this).serialize(),
+        success: function () {
+          // Reload the page after a successful form submission
+          location.reload();
+        },
+        error: function (error) {
+          // Handle error (if needed)
+          console.error(error);
+        }
+      });
+    });
+    
+  });
+</script>
+
+
+      <div class="text-center mb-5 mt-3">
+        <a type="button" class="btn btn-outline-primary" href="/booking">Place a Log</a>
+      </div>
+    </div>
+  </main>
+ <script src="/CSS/popper.min.js"></script>
+<script src="/CSS/bootstrap.min.js" ></script>
+  <%- include('partials/footer.ejs') %>

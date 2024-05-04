@@ -1,0 +1,87 @@
+<%- include (partial) %>
+  <!--Main layout-->
+  <main style="margin-top: 58px">
+    <div class="container-fluid card pt-4   " style="margin-right: 150px;">
+        <form method="post" action="/booking">
+            <!-- 2 column grid layout with text inputs for the first and last names -->
+            <div class="mb-4">
+              <!-- Example in an EJS file -->
+<% if (successMessage) { %>
+  <div class="alert alert-success" role="alert" id="flash-message">
+    <%= successMessage %>
+  </div>
+<% } else if (errorMessage) { %>
+  <div class="alert alert-danger" role="alert" id="flash-message">
+    <%= errorMessage %>
+  </div>
+<% } %> 
+
+<script>
+  // Set a timeout to hide the flash message after 5 seconds
+  setTimeout(function() {
+    var flashMessage = document.getElementById('flash-message');
+    if (flashMessage) {
+      flashMessage.style.display = 'none';
+    }
+  }, 1000); // 5000 milliseconds (5 seconds)
+</script>
+              <div class="col ">
+                <div class="form ">
+                    <label class="form-label" for="form6Example1">Name </label>
+                    
+                  <input type="text" id="form6Example1" class="form-control" name="name" required />
+                </div>
+              </div> 
+              <div class="col">
+                <div class="form">
+                    <label class="form-label" for="form6Example2">Contact</label>
+                  <input type="text" id="form6Example2" class="form-control" name="contact" required  />
+                </div>
+              </div>
+            </div>
+           
+            <hr>
+         
+        
+              <div class="col-md-3 ">
+                <div class="col">
+    <label for="faculty">Manager</label>
+    <select class="form-select" aria-label="Default select example" name="department" id="faculty" required>
+      <option data-hidden="true"></option>
+      <option value="General Manager">General Manager <strong> (GM)</strong></option>
+      <option value="Revenue Protection Manager">Revenue Protection Manager <strong>(RPM)</strong></option>
+      <option value="Rgional Commercial Manager">Rgional Commercial Manager <strong>(RCM)</strong></option>
+      <option value="Reginal Account Manager">Reginal Account Manager <strong>(RAM)</strong></option>
+      <option value="Regional Engineer">Regional Engineer <strong>(RE)</strong></option>
+      <option value="Reginal Materials & Transport Manager">Reginal Materials & Transport Manager <strong>(RMTM)</strong></option>
+      <option value="Region Human Resource Manager">Region Human Resource Manager<strong>(RHRM)</strong></option>
+      
+    </select>
+  </div>
+              </div>
+             
+             
+            
+          <div class="row mb-4">
+            <div class="col  ">
+              <div class="form mb-4">
+                <label class="form-label" for="form6Example7">Purpose</label>
+                <textarea class="form-control" id="form6Example7" rows="4" name="purpose" required></textarea>
+            </div>
+            </div>
+           
+          </div>
+          <div class="row mb-4">
+            <div class="col ">
+               <!-- Message input -->
+            <div class="form mb-4">
+              <label class="form-label" for="form6Example7">Additional information</label>
+              <textarea class="form-control" id="form6Example7" rows="4 " name="additionalInfo"></textarea>
+          </div>
+           
+            <!-- Submit button -->
+            <button type="submit" class="btn btn-primary btn-block mb-4">Place Booking</button>
+          </form>  
+    </div>
+    </div>
+     <%- include('partials/footer.ejs') %>

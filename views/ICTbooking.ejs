@@ -1,0 +1,102 @@
+<%- include (partial) %>
+  <!--Main layout-->
+  <main style="margin-top: 58px">
+    <div class="container-fluid card pt-4   " style="margin-right: 150px;">
+        <form method="post" action="/booking">
+            <!-- 2 column grid layout with text inputs for the first and last names -->
+            <div class="row mb-4">
+              <!-- Example in an EJS file -->
+<% if (successMessage) { %>
+  <div class="alert alert-success" role="alert" id="flash-message">
+    <%= successMessage %>
+  </div>
+<% } else if (errorMessage) { %>
+  <div class="alert alert-danger" role="alert" id="flash-message">
+    <%= errorMessage %>
+  </div>
+<% } %>
+
+<script>
+  // Set a timeout to hide the flash message after 5 seconds
+  setTimeout(function() {
+    var flashMessage = document.getElementById('flash-message');
+    if (flashMessage) {
+      flashMessage.style.display = 'none';
+    }
+  }, 1000); // 5000 milliseconds (5 seconds)
+</script>
+              <div class="col ">
+                <div class="form ">
+                    <label class="form-label" for="form6Example1">Staff Name </label>
+                    
+                  <input type="text" id="form6Example1" class="form-control" name="staffname" required />
+                </div>
+              </div>
+               <div class="col ">
+                <div class="col">
+    <label for="faculty">Location</label>
+    <select class="form-select" aria-label="Default select example" name="location" id="location" required>
+      <option data-hidden="true"></option>
+      <option value="Region">Region </option>
+      <option value="Kaneshie District">Kaneshie District</option>
+      <option value="Achimota District">Achimota District</option>
+      <option value="Dansoman District">Dansoman District	</option>
+      <option value="Korle Bu District">Korle Bu District</option>
+      <option value="Bortianor District">Bortianor District</option>
+      <option value="Nsawam District">Nsawam District</option>
+      <option value="Amasaman District">Amasaman District</option>
+      <option value="Ablekuma District">Ablekuma District</option>
+      
+    </select>
+  </div>
+              </div>
+             
+            </div>
+            <div class="row mb-4">
+                 <div class="col">
+                <div class="form">
+                    <label class="form-label" for="form6Example2">Department</label>
+                  <input type="text" id="form6Example2" class="form-control" name="department" required  />
+                </div>
+              </div>
+               <div class="col">
+                <div class="form">
+                    <label class="form-label" for="form6Example2">Detail</label>
+                  <input type="text" id="form6Example2" class="form-control" name="detail" required  />
+                </div>
+              </div>
+            </div>
+           
+            <hr>
+         
+          <div class="row mb-2">
+            <div class="col  ">
+              <div class="form mb-4">
+                <label class="form-label" for="form6Example7">Problem</label>
+                <textarea class="form-control" id="form6Example7" rows="4" name="problem" required></textarea>
+            </div>
+            </div>
+           
+          </div>
+          <div class="row mb-4">
+            <div class="col">
+                <div class="form">
+    <label class="form-label" for="form6Example2">Assign To</label>
+    <select id="form6Example2" class="form-control" name="assignedTo" required>
+        <option value="" selected disabled>Select an option</option>
+        <% users.forEach(user => { %>
+        <option value="<%= user.fName %> <%= user.lName %>"><%= user.fName %> <%= user.lName %></option>
+        <% }); %>
+    </select>
+</div>
+              </div>
+              </div>
+           
+            <!-- Submit button -->
+            <button type="submit" class="btn btn-primary btn-block mb-4">Submit</button>
+          </form> 
+          </div>
+
+    </div>
+    </div>
+     <%- include('partials/footer.ejs') %>

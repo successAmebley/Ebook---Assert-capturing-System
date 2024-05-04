@@ -1,0 +1,107 @@
+<%- include('partials/loginHeader.ejs') %>
+  <div class="container-fluid">
+     <div class="card">
+        <div class="card-item p-5">
+           
+            <!-- Pills navs -->
+            <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="tab-register" data-mdb-toggle="pill" href="#pills-register" role="tab" aria-controls="pills-register" aria-selected="true">Register</a>
+                </li>
+            </ul>
+            <!-- Pills navs -->
+            <div class="tab-pane fade show active" id="pills-register" role="tabpanel" aria-labelledby="tab-register">
+                <form action="/register" method="post">
+                    <!-- Flash messages -->
+                   <% if (successMessage || errorMessage) { %>
+  <div id="flash-message" class="alert <% if (successMessage) { %>alert-success<% } else { %>alert-danger<% } %>" role="alert">
+    <%= successMessage || errorMessage %>
+  </div>
+  <script>
+    // Set timer to hide flash message after 5 seconds
+    setTimeout(function() {
+      var flashMessage = document.getElementById('flash-message');
+      if (flashMessage) {
+        flashMessage.style.display = 'none';
+      }
+    }, 5000); // 5000 milliseconds = 5 seconds
+  </script>
+<% } %>
+                    <!-- Registration form fields -->
+                    <!-- First name -->
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="form-outline">
+                                <input type="text" id="form6Example1" class="form-control" name="fName" />
+                                <label class="form-label" for="form6Example1">First name</label>
+                            </div>
+                        </div>
+                        <!-- Last name -->
+                        <div class="col-md-6 mb-3">
+                            <div class="form-outline">
+                                <input type="text" id="form6Example2" class="form-control" name="lName" />
+                                <label class="form-label" for="form6Example2">Last name</label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Email and Contact -->
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="form-outline">
+                                <input type="text" id="form6Example1" class="form-control" name="email" />
+                                <label class="form-label" for="form6Example1">Email</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="form-outline">
+                                <input type="text" id="form6Example2" class="form-control" name="contact" />
+                                <label class="form-label" for="form6Example2">Contact</label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Role and Department -->
+                    <div class="role mb-3">
+                        <select class="form-select" aria-label="Default select example" name='role' required>
+                            <option selected disabled>Select a Role</option>
+                            <option value="receptionist">Receptionist</option>
+                            <option value="ICT">ICT</option>
+                            <option value="HR">HR</option>
+                        </select>
+                    </div>
+                    <div class="role mb-3">
+                        <select class="form-select" aria-label="Default select example" name='department' required>
+                            <option selected disabled>Select a department</option>
+                            <option value="IT">IT</option>
+                            <option value="HR">HR</option>
+                        </select>
+                        <input type="text" name="staffclass" id="" value="user" hidden>
+                    </div>
+                    <!-- Password input -->
+                    <div class="form-outline mb-3">
+                        <input type="password" id="password" name="password" class="form-control" />
+                        <label class="form-label" for="password">Password</label>
+                    </div>
+                    <!-- Repeat Password input -->
+                    <div class="form-outline mb-3">
+                        <input type="password" id="registerRepeatPassword" name="registerRepeatPassword" class="form-control" />
+                        <label class="form-label" for="registerRepeatPassword">Repeat password</label>
+                    </div>
+                    <!-- Checkbox -->
+                    <div class="form-check d-flex justify-content-center mb-4">
+                        <input class="form-check-input me-2" type="checkbox" value="" id="registerCheck" checked aria-describedby="registerCheckHelpText" />
+                        <label class="form-check-label" for="registerCheck">I have read and agree to the terms</label>
+                    </div>
+                    <!-- Submit button -->
+                    <button type="submit" class="btn btn-primary btn-block mb-3">Register</button>
+                </form>
+                <div class="text-center">
+                    <p>Already A user? <a href="/">Login</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  <!-- MDB -->
+<script type="text/javascript" src="/CSS/mdb.min.js"></script>
+</body>
+</html>

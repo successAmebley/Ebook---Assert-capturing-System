@@ -1,0 +1,239 @@
+<%- include (  partial  ) %>
+  <!--Main layout-->
+<main  class="d-flex flex-column"  >
+         <div class="container-fluid pt-4    text-center">
+
+ <div class="row d-flex justify-content-center mt-5">
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                              Computers </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><%= totalComputers %></div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-2x text-gray-300"><image src="/images/pc.png" style="height:30px;"></image></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                Printers </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><%= totalPrinters %></div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas  fa-2x text-gray-300"><image src="/images/printer.png" style="height:30px;"></image></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-info shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+    <div class="col mr-2">
+        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Task Completed</div>
+        <div class="row no-gutters align-items-center">
+            <div class="col-auto">
+                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800" id="completedPercentage">0%</div>
+            </div>
+            <div class="col">
+                <div class="progress progress-sm mr-2">
+                    <div class="progress-bar bg-info" role="progressbar" style="width: 0%" aria-valuenow="0"
+                        aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-auto">
+        <i class="fas  fa-2x text-gray-300"><image src="/images/booksvg.png" style="height:29px;"></image></i>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        // Get the total number of records and pending tasks from your server-side logic
+        var totalRecords = <%= totalrecords %>;
+        var totalPending = <%= totalpending %>;
+
+        // Calculate the completed percentage
+        var completedPercentage = ((totalRecords - totalPending) / totalRecords) * 100;
+
+        // Display the initial completed percentage
+        $("#completedPercentage").text(completedPercentage.toFixed(2) + "%");
+
+        // Animate the progress bar
+        $(".progress-bar").animate({
+            width: completedPercentage + "%"
+        }, 1500); // You can adjust the animation duration as needed
+    });
+</script>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pending Requests Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-warning shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                                Pending Task</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><%= totalpending %></div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-2x text-gray-300"><image src="/images/pendingsvg.png" style="height:29px;"></image></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        <!-- print -->
+        
+       <div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">District Asset</h6>
+    </div>
+    <div class="card-body">
+    <canvas id="assetsChart" width="300" height="300"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Extract data for Chart.js
+    const labels = [];
+    const data = [];
+    const backgroundColors = [];
+
+    <% assetsByDistrict.forEach((district) => { %>
+        labels.push('<%= district.district %> - Computers: <%= district.totalComputers %>');
+        labels.push('<%= district.district %> - Printers: <%= district.totalPrinters %>');
+        data.push(<%= district.totalComputers %>);
+        data.push(<%= district.totalPrinters %>);
+        backgroundColors.push('rgba(54, 162, 235, 0.7)'); // Computers color
+        backgroundColors.push('rgba(255, 206, 86, 0.7)'); // Printers color
+    <% }); %>
+
+    // Create pie chart
+    const ctx = document.getElementById('assetsChart').getContext('2d');
+    const assetsChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: labels,
+            datasets: [{
+                data: data,
+                backgroundColor: backgroundColors,
+            }]
+        },
+        options: {
+            title: {
+                display: true,
+                text: 'Assets Distribution by District'
+            },
+            tooltips: {
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                        var dataset = data.datasets[tooltipItem.datasetIndex];
+                        var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
+                            return previousValue + currentValue;
+                        });
+                        var currentValue = dataset.data[tooltipItem.index];
+                        var percent = Math.round((currentValue / total) * 100);
+                        return data.labels[tooltipItem.index] + ': ' + currentValue + ' (' + percent + '%)';
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
+
+
+                            
+        <div class="row ">
+            <div class="col-md-3 d-flex justify-content-center mb-3">
+                <a href="/booking" class="card" style="width: 15rem; height: 14rem;">
+                    <img src="images/booking.png" class="card-img-top" alt="Sunset Over the Sea" style="height: 10rem;  width: 10rem; margin-left: 50px" />
+                    <div class="card-body">
+                      <p class="card-text">Logging </p>
+                    </div>            
+                </a>
+            </div>
+        <div class="col-md-3 d-flex justify-content-center mb-3">
+                <a class="card" href="/calender" style="width: 15rem; height: 14rem;">
+                <img src="images/calendar.png" class="card-img-top" alt="Sunset Over the Sea"  style="height: 10rem;  width: 10rem; margin-left: 50px" />
+                    <div class="card-body">
+                      <p class="card-text">Calender </p>
+                    </div>
+                </a>
+            </div>       
+       
+
+        <div class="col-md-3 d-flex justify-content-center mb-3">
+                <a href="/bookhistory" class="card" style="width: 15rem; height: 14rem;">
+                <img src="images/visithistory.jpg" class="card-img-top" alt="Sunset Over the Sea"  style="height: 10rem;  width: 15rem; " />
+                    <div class="card-body">
+                      <p class="card-text">Records </p>
+                    </div>
+                </a>
+            </div>
+        <div class="col-md-3 d-flex justify-content-center  mb-3">
+                <a href="/profile" class="card" style="width: 15rem; height: 14rem;">
+                <img src="images/profile.avif" class="card-img-top" alt="Sunset Over the Sea"  style="height: 10rem;  width: 10rem; margin-left: 50px" />
+                    <div class="card-body">
+                      <p class="card-text">Profile </p>
+                    </div>
+                </a>
+            </div>
+          
+            
+        </div>
+
+ 
+  
+    <%- include('partials/footer.ejs') %>

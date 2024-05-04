@@ -1,0 +1,295 @@
+<%- include (partial) %>
+
+<!--Main layout-->
+<main style="margin-top: 58px">
+  <div class="container-fluid card pt-4" style="margin-right: 150px;">
+    <div class="topic mb-2">
+<h4 class="text-center">Printer Details</h4>
+<h5 class="text-center"><%= reg %> In <%= dis %></h5>
+    </div>
+    
+
+
+<div class="row">
+  <div class="col-md-8">
+  <form class="d-flex" role="search">
+    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="searchInput">
+  </form>
+</div>
+
+  <!-- Buttons for ADD, Print, and Download -->
+  <div class="col-md-4">
+    <div class="d-flex justify-content-md-end mt-2 mt-md-0">
+      <button class="btn btn-outline-success me-1" type="button" data-bs-toggle="modal" data-bs-target="#addModal">ADD</button>
+     <button class="btn btn-outline-success me-1"  type="button" onclick="printTable()">Print</button>
+<a class="btn btn-outline-success" href="/printSpecs/printer/dis_download/<%= reg %>/<%= dis %>" download>Download</a>
+      
+      <a class="btn btn-outline-success me-1"  href="/printSpecs/printer/allDistrictsAndRegions/download/<%= reg %>" download>All District</a>
+    </div>
+  </div>
+</div>
+
+<!-- ... Your existing code ... -->
+
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Printer</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Your form content goes here -->
+    <form method="post" action="/printSpecs/printer">
+          <!-- Add your form fields for adding a computer -->
+   <input type="text" name="region" id="regInput" hidden>
+<input type="text" name="district" id="disInput" hidden>
+
+<script>
+  // Wrap script within DOMContentLoaded event listener
+  document.addEventListener("DOMContentLoaded", function() {
+    // Get the URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+
+    // Get the value of the "reg" parameter
+    const regValue = urlParams.get('reg');
+
+    // Get the value of the "dis" parameter
+    const disValue = urlParams.get('dis');
+
+    // Set the value of the "reg" input field
+    document.getElementById('regInput').value = regValue;
+
+    // Set the value of the "dis" input field
+    document.getElementById('disInput').value = disValue;
+  });
+</script>
+          <!-- Device Info Section -->
+    <div class="form-group">
+      <label for="brand">Brand:</label>
+      <input type="text" class="form-control" id="brand" name="brand">
+    </div>
+
+    <div class="form-group">
+      <label for="make">Make:</label>
+      <select class="form-control" id="make" name="make">
+        <option value="Desktop">Printer</option>
+        <option value="Laptop">Scanner</option>
+        <!-- Add other make options -->
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="model">Model:</label>
+      <input type="text" class="form-control" id="model" name="model">
+    </div>
+
+    <div class="form-group">
+      <label for="serialNumber">Serial Number:</label>
+      <input type="text" class="form-control" id="serialNumber" name="serialNumber">
+    </div>
+
+    <div class="form-group">
+      <label for="assetTag">Asset Tag:</label>
+      <input type="text" class="form-control" id="assetTag" name="assetTag">
+    </div>
+
+
+<!-- Office Section -->
+<div class="form-group">
+  <label for="department">Department:</label>
+  <input type="text" class="form-control" id="department" name="department">
+</div>
+
+<div class="form-group">
+  <label for="room">Room:</label>
+  <input type="text" class="form-control" id="room" name="room">
+</div>
+
+<!-- User Information -->
+<div class="form-group">
+  <label for="assignedUser">Assigned User:</label>
+  <input type="text" class="form-control" id="assignedUser" name="assignedUser">
+</div>
+
+<!-- Status and Condition -->
+<div class="form-group">
+  <label for="status">Status:</label>
+  <input type="text" class="form-control" id="status" name="status">
+</div>
+
+<div class="form-group">
+  <label for="physicalCondition">Physical Condition:</label>
+  <input type="text" class="form-control" id="physicalCondition" name="physicalCondition">
+</div>
+
+
+<!-- Notes/Comments -->
+<div class="form-group">
+  <label for="notesComments">Notes/Comments:</label>
+  <textarea class="form-control" id="notesComments" name="notesComments" rows="3"></textarea>
+</div>
+
+          <!-- Add other form fields as needed -->
+
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+    <button type="submit" class="btn btn-primary">Save</button>
+
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+                      
+
+<!-- Table -->
+<div class="table-container mt-3">
+  <table class="table table-hover" id="printTable" style="max-height: 400px; overflow-y: scroll;">
+    <thead>
+      <tr>
+        <th scope="col">Asset Tag</th>
+        <th scope="col">Department</th>
+        <th scope="col">User</th>
+        <th scope="col">Brand</th>
+        <th scope="col">Model</th>
+        <th scope="col">Serial Number</th>
+        <th scope="col">Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% findDetailsInRegion.reverse().forEach((item) => { %>
+        <tr>
+          <td><%= item.assetTag %></td>
+          <td><%= item.department %></td>
+          <td><%= item.assignedUser %></td>
+          <td><%= item.brand %></td>
+          <td><%= item.model %></td>
+          <td><%= item.serialNumber %></td>
+          <td>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#detailsModal<%= item._id %>">View Details</button>
+          </td>
+        </tr>
+
+        <!-- Modal for View Details -->
+        <div class="modal fade" id="detailsModal<%= item._id %>" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="detailsModalLabel">Details for <%= item.assetTag %></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <!-- Display all details here -->
+                <p>Asset Tag: <%= item.assetTag %></p>
+                <p>Department: <%= item.department %></p>
+            <p>User: <%= item.assignedUser %></p>
+        <p>Brand: <%= item.brand %></p>
+        <p>Model: <%= item.model %></p>
+        <p>Serial Number: <%= item.serialNumber %></p>
+                <p>Status: <%= item.status %></p>
+                <p>Physical Condition: <%= item.physicalCondition %></p>
+                <p>Notes/Comments: <%= item.notesComments %></p>
+           </div>
+              <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+<form action="/updatePrinter/<%= item._id %>" method="get">
+  <input type="text" name="reg" value="<%= item.Region %>" hidden>
+   <input type="text" name="dis" value="<%= item.District %>" hidden>
+  <button type="submit" class="btn btn-primary edit-button" id="edit">Edit</button>
+
+
+<script>
+  // Wrap script within DOMContentLoaded event listener
+  document.addEventListener("DOMContentLoaded", function() {
+    const editButtons = document.querySelectorAll(".edit-button");
+
+    editButtons.forEach(button => {
+      if ('<%= findUser.editStatus %>' === 'false') {
+        button.disabled = true;
+        button.setAttribute("tooltip", "You do not have permission to edit this record");
+      } else if ('<%= findUser.editStatus %>' === 'true') {
+        button.disabled = false;
+      }
+    });
+  });
+</script>
+    </form>
+    
+      </div>
+            </div>
+          </div>
+        </div>
+        <!-- End of Modal -->
+      <% }); %>
+    </tbody>
+  </table>
+</div>
+
+
+<div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="errorModalLabel">ERROR</h5>
+
+      </div>
+      <div class="modal-body">
+        <p id="errorMessage"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+function printTable() {
+  var printContents = document.getElementById("printTable").outerHTML;
+  var originalContents = document.body.innerHTML;
+  document.body.innerHTML = printContents;
+  window.print();
+  document.body.innerHTML = originalContents;
+}
+$(document).ready(function () {
+  $("#searchInput").keyup(function () {
+    var searchText = $(this).val().toLowerCase();
+    filterTable(searchText);
+  });
+
+  $("#searchButton").click(function () {
+    var searchText = $("#searchInput").val().toLowerCase();
+    filterTable(searchText);
+  });
+
+  function filterTable(searchText) {
+    $("#printTable tbody tr").each(function () {
+      var rowText = $(this).text().toLowerCase();
+      $(this).toggle(rowText.indexOf(searchText) > -1);
+    });
+  }
+});
+
+$(document).ready(function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const error = urlParams.get('error');
+
+    if (error) {
+      $('#errorModal').modal('show');
+      $('#errorMessage').text(error);
+
+      $('#errorModal .modal-footer .btn-secondary').on('click', function() {
+            $('#errorModal').modal('hide');
+        });
+    }
+  });
+</script>
+
+    </div>
+    </main>
+   <script src="/CSS/popper.min.js"></script>
+<script src="/CSS/bootstrap.min.js" ></script>
+<%- include('partials/footer.ejs') %>

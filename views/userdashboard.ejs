@@ -1,0 +1,90 @@
+<%- include ('partials/header.ejs') %>
+  <!--Main layout-->
+<main  class="d-flex flex-column"  >
+         <div class="container-fluid pt-4    text-center">
+         <div class="row d-flex justify-content-center mt-5">
+         <div class="col-xl-3 col-sm-6 col-12 mb-4">
+          
+          <div class="card">
+            <a href="/pending">
+            <div class="card-body">
+              <div class="d-flex justify-content-between px-md-1">
+                <div class="align-self-center">
+                  <i class="fast text-danger "><image src="/images/pending.png" style="height:50px;"></image></i>
+                </div>
+                <div class="text-end">
+              <h3 class="text-danger"><%= totalpending %></h3>
+                  <p class="mb-0 text-danger">Pending</p>
+                </div>
+              </div>
+            </div>
+            </a>
+          </div>
+          
+         </div>
+        
+          <div class="col-xl-3 col-sm-6 col-12 mb-4">
+          <div class="card">
+            <div class="card-body">
+          <a href="/bookhistory">
+              <div class="d-flex justify-content-between px-md-1">
+                <div>
+              <h3 class="text-info"><%= totalrecords %></h3>
+                  <p class="mb-0">Log Records</p>
+                </div>
+                <div class="align-self-center">
+                  <i class="fas text-info "><image src="/images/records.png" style="height:50px;"></image></i>
+                </div>
+                </div>
+                </div>
+                </div>
+                </div>
+                
+                
+        </div>
+
+        <!-- print -->
+        
+        
+        <div class="row ">
+            <div class="col-6 d-flex justify-content-center">
+                <a href="/booking" class="card" style="width: 15rem; height: 15rem;">
+                    <img src="images/booking.png" class="card-img-top" alt="Sunset Over the Sea" style="height: 10rem;  width: 10rem; margin-left: 50px" />
+                    <div class="card-body">
+                      <p class="card-text">Logging </p>
+                    </div>            
+                </a>
+            </div>
+            <div class="col-6 d-flex justify-content-center">
+                <a class="card" href="/calender" style="width: 15rem; height: 15rem;">
+                <img src="images/calendar.png" class="card-img-top" alt="Sunset Over the Sea"  style="height: 10rem;  width: 10rem; margin-left: 50px" />
+                    <div class="card-body">
+                      <p class="card-text">Calender </p>
+                    </div>
+                </a>
+            </div>       
+        </div>
+       <div class="row  mt-4">
+            <div class="col-6 d-flex justify-content-center">
+                <a href="/bookhistory" class="card" style="width: 15rem; height: 15rem;">
+                <img src="images/visithistory.jpg" class="card-img-top" alt="Sunset Over the Sea"  style="height: 10rem;  width: 15rem; " />
+                    <div class="card-body">
+                      <p class="card-text">Records </p>
+                    </div>
+                </a>
+            </div>
+            <div class="col-6 d-flex justify-content-center">
+                <a href="/profile" class="card" style="width: 15rem; height: 15rem;">
+                <img src="images/profile.avif" class="card-img-top" alt="Sunset Over the Sea"  style="height: 10rem;  width: 10rem; margin-left: 50px" />
+                    <div class="card-body">
+                      <p class="card-text">Profile </p>
+                    </div>
+                </a>
+            </div>
+          
+            </div>
+        </div>
+
+    </div>
+  
+    <%- include('partials/footer.ejs') %>

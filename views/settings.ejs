@@ -1,0 +1,64 @@
+<%- include('partials/ictAdminheader.ejs') %>
+<!--Main layout-->
+<main style="margin-top: 58px">
+  <div class="container-fluid card pt-4" style="margin-right: 150px;">
+    <ul class="nav nav-pills">
+  <li class="nav-item">
+    <a class="nav-link active" aria-current="page" href="/settings">Users</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/admin">Admin</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/profile">Profile</a>
+  </li>
+  <!-- <li class="nav-item">
+    <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+  </li> -->
+</ul>
+<hr>
+<table class="table table-striped table-hover" style="height: 500px; overflow-y:scroll">
+  <thead>
+    <tr>
+      <th scope="col-1">#</th>
+      <th scope="col-2">Name</th>
+      <th scope="col-2">Email</th>
+      <th scope="col-1">Department</th>
+      <th scope="col-6">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% users.forEach((user, index) => { %>
+      <tr>
+        <th><%- index + 1 %></th>
+        <td><%- user.fName %> <%- user.lName %></td>
+        <td><%- user.email %></td>
+        <td><%- user.department %></td>
+        <td>
+          <div class="d-flex align-items-center">
+            <form action="/updateUser" method="POST" class="me-1 d-flex">
+              <input class="form-control" type="hidden" name="id" value="<%- user._id %>">
+              <select class="form-control" name="action">
+                <option value="" disabled selected hidden>Select Action</option>
+                <% if (user.staffclass === 'user') { %>
+                  <option value="makeAdmin">Make Admin</option>
+                <% } else if (user.staffclass === 'admin') { %>
+                  <option value="makeUser">Make User</option>
+                <% } %>
+                <% if (user.editStatus === true) { %>
+                  <option value="disableEdit">Disable Edit</option>
+                <% } else { %>
+                  <option value="enableEdit">Enable Edit</option>
+                <% } %>
+              </select>
+              <button class="btn btn-primary ms-2" type="submit">Submit</button>
+            </form>
+            
+          </div>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+<%- include('partials/footer.ejs') %>

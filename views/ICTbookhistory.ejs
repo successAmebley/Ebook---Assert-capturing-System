@@ -1,0 +1,106 @@
+<%- include (partial) %>
+
+<!-- Main layout -->
+<main style="margin-top: 100px">
+  <div class="container-fluid card pt-4" >
+    <form class="d-flex" role="search">
+      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="searchInput">
+      <button class="btn btn-outline-success" type="">Search</button>
+    </form>
+    <div class="table-container">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Appointment Date</th>
+            <th scope="col">Name</th>
+            <th scope="col">Time In</th>
+            <th scope="col">Status</th>
+            <th scope="col">Time Out</th>
+            <th scope="col">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% bookings.forEach((history, index) => { %>
+            <tr id="bookingRow<%= index %>">
+              <th scope="row"><%= history.bookingDate %></th>
+              <td><%= history.staffname %></td>
+              <td><%= history.timeIn %></td>
+              <td class="<%= history.status === 'Pending' ? 'text-danger' : (history.status === 'Signed Out' ? 'text-primary' : '') %>">
+                <%= history.status %>
+              </td>
+              <td><%= history.timeOut %></td>
+              <td>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#appointmentDetailsModal<%= index %>">
+                  View Details
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="appointmentDetailsModal<%= index %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Appointment Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <!-- Display all details here -->
+                        <p><strong>Staff:</strong> <%= history.staffname %></p>
+                        <p><strong>Location: </strong><%= history.location %></p>
+                        <p><strong>Department: </strong><%= history.department %></p>
+                        <p><strong>Detail: </strong><%= history.detail %></p>
+                        <p><strong>Problem: </strong><%= history.problem %></p>
+                        <p><strong>Booked Date: </strong><%= history.bookingDate %></p>
+                        <p><strong>Time In: </strong> <%= history.timeIn %></p>
+                        <p><strong>Assigned To: </strong> <%= history.assignedTo %></p>
+                        <p><strong>Status: </strong><%= history.status %></p>
+                        <p><strong>Solution: </strong> <%= history.solution %></p>
+                        <p><strong>Resolved Date </strong> <%= history.resolvedDate %></p>
+                        <p><strong>Time Out: </strong> <%= history.timeOut %></p>
+
+                        <!-- Add other details as needed -->
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+
+    <script>
+      $(document).ready(function () {
+        $('#searchInput').on('input', function () {
+          var searchTerm = $(this).val().toLowerCase();
+
+          // Loop through each booking row and hide/show based on the search term
+          <% bookings.forEach((appointment, index) => { %>
+            var bookingRow = $('#bookingRow<%= index %>');
+            var appointmentDate = '<%= appointment.appointmentDate %>'.toLowerCase();
+            var name = '<%= appointment.name %>'.toLowerCase();
+            var timeIn = '<%= appointment.timeIn %>'.toLowerCase();
+
+            if (appointmentDate.includes(searchTerm) || name.includes(searchTerm) || timeIn.includes(searchTerm)) {
+              bookingRow.show();
+            } else {
+              bookingRow.hide();
+            }
+          <% }) %>
+        });
+      });
+    </script>
+
+    <div class="text-center mb-5">
+      <a type="button" class="btn btn-outline-primary" href="/booking">Place a Log</a>
+    </div>
+  </div>
+</main>
+
+<script src="/CSS/popper.min.js"></script>
+<script src="/CSS/bootstrap.min.js" ></script>
+<%- include('partials/footer.ejs') %>

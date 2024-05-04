@@ -1,0 +1,99 @@
+<%- include (partial) %>
+
+<!--Main layout-->
+<main style="margin-top: 58px">
+  <div class="container-fluid card pt-4" style="margin-right: 150px;">
+    <form method="get" action="<%= getdistrict %>" id="bookingForm">
+      <!-- 2 column grid layout with text inputs for the first and last names -->
+      <div class="row mb-4">
+        <div class="col">
+          <div class="col">
+            <label for="Region">Region</label>
+            <select class="form-select" aria-label="Default select example" name="reg" id="reg" required>
+              <option data-hidden="true"></option>
+              <option value="Accra West Region">Accra West Region</option>
+              <!-- <option value="Accra East Region">Accra East Region</option>
+              <option value="Tema Region">Tema Region</option>
+              <option value="Ashanti Region">Ashanti Region</option>
+              <option value="Eastern Region">Eastern Region</option>
+              <option value="Western Region">Western Region</option>
+              <option value="Volta Region">Volta Region</option>
+              <option value="Central Region">Central Region</option> -->
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <label for="District">District</label>
+          <select class="form-select" aria-label="Default select example" name="dis" id="dis" >
+            <option data-hidden="true"></option>
+            <!-- District options will be dynamically populated using JavaScript -->
+          </select>
+        </div>
+      </div>
+       
+
+      <hr>
+      <!-- Submit button -->
+      <button type="submit" class="btn btn-primary btn-block mb-4">Check Inventory</button>
+    </form>
+  </div>
+</main>
+
+<script>
+  document.getElementById('reg').addEventListener('change', function () {
+    // Get the selected region
+    var selectedRegion = this.value;
+    
+    // Get the corresponding districts for the selected region
+    var districts = getDistricts(selectedRegion);
+
+    // Update the options of the "District" dropdown
+    var districtDropdown = document.getElementById('dis');
+    districtDropdown.innerHTML = ''; // Clear existing options
+
+    // Add new options for the selected region
+    districts.forEach(function (district) {
+      var option = document.createElement('option');
+      option.value = district;
+      option.text = district;
+      districtDropdown.appendChild(option);
+    });
+
+
+  });
+  
+ 
+
+  // Function to get districts based on the selected region
+  function getDistricts(reg) {
+    // Add your logic to fetch districts based on the selected region
+    // Replace the sample logic with your actual implementation
+    switch (reg) {
+      case 'Accra West Region':
+        return ['Region','Kaneshie District', 'Achimota District', 'Bortianor District', 'Amasaman District', 
+        'Nsawam District', 'Dansoman District', 'Korle Bu District','Ablekumah District'];
+      case 'Accra East Region':
+        return ['Region','Makola District', 'Dodowa District','Mampong District','Legon District','Teshie District','Roman Ridge District'];
+      case 'Tema Region':
+return ['Region','Tema North District','Tema South District','Afienya District','Nungua District','Ada District','Prampram District', 'Krobo District'];
+      case 'Ashanti Region':
+        return ['',];
+      case 'Eastern Region':
+return ['Region','Koforidua District','Asesewa District','Asamankese District', 'Kibi District','Nkawkaw District' , 'New Abirem District','Donkorkrom District', 'Akim Oda District','Mpraeso District','Suhum District', 'Begoro District', 'Tafo District', 'Akwatia District','Kade District' ];
+      case 'Western Region':
+        return ['',];
+      case 'Volta Region':
+        return ['Region','Ho District','Akatsi District', 'Denu District','Keta District', 'Kpeve District', 'Hohoe District', 'Dambai District', 'Nkwanta District', 'Kpando District'];
+      case 'Central Region':
+    return ['Region','Cape Coast District','Kasoa North District','Kasoa South District','Agona Swedru District', 'Winneba District','Saltpond District','Assin Fosu District','Breman Asikuma District','Twifo Praso District', 'Ajumako District'];
+      // Add cases for other regions
+      default:
+        return [];
+    }
+  }
+
+</script>
+
+<%- include('partials/footer.ejs') %>

@@ -1,0 +1,249 @@
+<!-- Modal for Edit Details -->
+<div class="modal fade" id="editModal<%= item._id %>" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editModalLabel">Edit Details for <%= item.assetTag %></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Form to edit details -->
+          <!-- You can use input fields, textareas, etc. to allow users to edit the details -->
+          <!-- Make sure to pre-fill these fields with the existing data -->
+
+          <form id="editForm">
+          <!-- Example: Input field for editing brand -->
+          <label for="editBrand">Brand:</label>
+          <input type="text" id="Editbrand" name="brand" class="form-control" value="<%= item.brand %>">
+
+          <!-- Add similar input fields for other properties that need editing -->
+          <!-- Make sure to set the value attribute to the existing data -->
+
+          <!-- ... Other input fields ... -->
+
+             <input type="text" name="region" id="regInput" hidden>
+<input type="text" name="Editdistrict" id="disInput" hidden>
+
+<script>
+  // Wrap script within DOMContentLoaded event listener
+  document.addEventListener("DOMContentLoaded", function() {
+    // Get the URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+
+    // Get the value of the "reg" parameter
+    const regValue = urlParams.get('reg');
+
+    // Get the value of the "dis" parameter
+    const disValue = urlParams.get('dis');
+
+    // Set the value of the "reg" input field
+    document.getElementById('regInput').value = regValue;
+
+    // Set the value of the "dis" input field
+    document.getElementById('disInput').value = disValue;
+  });
+</script>
+          <!-- Device Info Section -->
+  
+
+    <div class="form-group">
+      <label for="make">Make:</label>
+      <select class="form-control" id="Editmake" name="make">
+        <option value="Desktop">Desktop</option>
+        <option value="Laptop">Laptop</option>
+        <!-- Add other make options -->
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="model">Model:</label>
+      <input type="text" class="form-control" id="Editmodel" name="model" value="<%= item.model %>" >
+    </div>
+
+    <div class="form-group">
+      <label for="serialNumber">Serial Number:</label>
+      <input type="text" class="form-control" id="EditserialNumber" name="serialNumber" value="<%= item.serialNumber %>">
+    </div>
+
+    <div class="form-group">
+      <label for="assetTag">Asset Tag:</label>
+      <input type="text" class="form-control" id="EditassetTag" name="assetTag" value="<%= item.assetTag %>">
+    </div>
+
+    <!-- Hardware Section -->
+    <div class="form-group">
+      <label for="processor">Processor:</label>
+      <input type="text" class="form-control" id="Editprocessor" name="processor" value='<%= item.processor %>'>
+    </div>
+
+    <div class="form-group">
+      <label for="ramCapacity">RAM Capacity:</label>
+      <input type="text" class="form-control" id="EditramCapacity" name="ramCapacity" value="<%= item.ramCapacity %>">
+    </div>
+
+    <div class="form-group">
+      <label for="storage">Storage:</label>
+      <input type="text" class="form-control" id="Editstorage" name="storage" value="<%= item.storage %>">
+    </div>
+
+    <!-- Operating System -->
+<div class="form-group">
+  <label for="operatingSystem">Operating System:</label>
+  <input type="text" class="form-control" id="EditoperatingSystem" name="operatingSystem" value="<%= item.operatingSystem %>">
+</div>
+
+<!-- Network Info -->
+<div class="form-group">
+  <label for="macAddress">MAC Address:</label>
+  <input type="text" class="form-control" id="EditmacAddress" name="macAddress" value="<%= item.macAddress %>">
+</div>
+
+<!-- Office Section -->
+<div class="form-group">
+  <label for="department">Department:</label>
+  <input type="text" class="form-control" id="Editdepartment" name="department" value="<%= item.department %>">
+</div>
+
+<div class="form-group">
+  <label for="room">Room:</label>
+  <input type="text" class="form-control" id="Editroom" name="room" value="<%= item.room %>">
+</div>
+
+<!-- User Information -->
+<div class="form-group">
+  <label for="assignedUser">Assigned User:</label>
+  <input type="text" class="form-control" id="EditassignedUser" name="assignedUser" value="<%= item.assignedUser %>">
+</div>
+
+<!-- Status and Condition -->
+<div class="form-group">
+  <label for="status">Status:</label>
+  <input type="text" class="form-control" id="Editstatus" name="status" value="<%= item.status %>">
+</div>
+
+<div class="form-group">
+  <label for="physicalCondition">Physical Condition:</label>
+  <input type="text" class="form-control" id="EditphysicalCondition" name="physicalCondition" value="<%= item.physicalCondition %>">
+</div>
+
+<!-- Peripherals -->
+<div class="form-group">
+  <label for="peripherals">Peripherals:</label>
+  <input type="text" class="form-control" id="Editperipherals" name="peripherals" value="<%= item.peripherals %>">
+</div>
+
+<!-- Notes/Comments -->
+<div class="form-group">
+  <label for="notesComments">Notes/Comments:</label>
+  <textarea class="form-control" id="EditnotesComments" name="notesComments" rows="3" value="<%= item.notesComments %>"></textarea>
+</div>
+        </form>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+  
+  <button class="btn btn-primary" onclick="saveChanges('<%= item._id %>')">Save changes <%= item._id %></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+
+
+
+<script>
+  
+
+
+  function saveChanges(itemId) {
+    console.log(itemId);
+
+  
+  const urlParams = new URLSearchParams(window.location.search);
+
+    // Get the value of the "reg" parameter
+    const regValue = urlParams.get('reg');
+
+    // Get the value of the "dis" parameter
+    const disValue = urlParams.get('dis');
+
+
+
+const formData = {
+    // Set the value of the "reg" input field
+    region: regValue,
+    district:disValue,
+    // Set the value of the "dis" input field
+    
+     brand : document.getElementById('Editbrand').value,
+    
+     make : document.getElementById('Editmake').value,
+     model : document.getElementById('Editmodel').value,
+     serialNumber : document.getElementById('EditserialNumber').value,
+     assetTag : document.getElementById('EditassetTag').value,
+     processor: document.getElementById('Editprocessor').value,
+     ramCapacity: document.getElementById('EditramCapacity').value,
+     storage: document.getElementById('Editstorage').value,
+     operatingSystem: document.getElementById('EditoperatingSystem').value,
+     macAddress: document.getElementById('EditmacAddress').value,
+     department : document.getElementById('Editdepartment').value,
+     room: document.getElementById('Editroom').value,
+     assignedUser: document.getElementById('EditassignedUser').value,
+     status: document.getElementById('Editstatus').value,
+     physicalCondition: document.getElementById('EditphysicalCondition').value,
+     peripherals: document.getElementById('Editperipherals').value,
+     notesComments:document.getElementById('EditnotesComments').value,
+    // Get values for other edited properties in a similar way
+
+
+
+
+
+}
+
+fetch(`/updateComputer/${itemId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(formData),
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Update successful:', data);
+      // Optionally, update the table row or perform other UI changes
+      $('#editModal' + itemId).modal('hide');
+    })
+    .catch(error => {
+      console.error('Error updating data:', error);
+    });
+    $('#editModal' + itemId).modal('hide');
+}
+
+
+
+
+
+
+
+
+
+
+    
+    
+
+
+    
+    // Close the edit modal
+    
+
+</script>
+  
+        
